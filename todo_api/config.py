@@ -13,6 +13,7 @@ class Config(object):
     SECRET_KEY = environ.get('SECRET_KEY')
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProductionConfig(Config):
