@@ -1,5 +1,6 @@
 from flask import Flask
 
+
 def create_app():
     # create an app
     app = Flask(__name__)
@@ -14,7 +15,14 @@ def create_app():
         db, migrate
     )
 
-    db.init_app(app) # initialize the database
-    migrate.init_app(app, db) # initialize the flask migrate (Flask wrapper for Alembic)
+    db.init_app(app)  # initialize the database
+    migrate.init_app(app, db)  # initialize the flask migrate (Flask wrapper for Alembic)
+
+    from todo_api.users.views import jwt, users
+    from todo_api.tasks.views import tasks
+
+    jwt.init_app(app)
+    app.register_blueprint(users, url_prefix="/")
+    app.register_blueprint(tasks, url_prefix="/")
 
     return app
