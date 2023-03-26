@@ -12,16 +12,17 @@ def create_app():
 
     from .models import (
         User, Task,
-        db, migrate
+        db, migrate,
+        jwt
     )
 
     db.init_app(app)  # initialize the database
     migrate.init_app(app, db)  # initialize the flask migrate (Flask wrapper for Alembic)
+    jwt.init_app(app)
 
-    from todo_api.users.views import jwt, users
+    from todo_api.users.views import users
     from todo_api.tasks.views import tasks
 
-    jwt.init_app(app)
     app.register_blueprint(users, url_prefix="/")
     app.register_blueprint(tasks, url_prefix="/")
 

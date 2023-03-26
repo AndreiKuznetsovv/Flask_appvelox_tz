@@ -5,13 +5,15 @@ from sqlalchemy.sql import func
 from werkzeug.security import (
     generate_password_hash, check_password_hash
 )
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, JWTManager
 from datetime import timedelta
 
 # creation of db object
 db = SQLAlchemy()
 # creation of migrate object
 migrate = Migrate()
+# creation of JWTManager object
+jwt = JWTManager()
 
 
 def db_add_func(data):
@@ -26,7 +28,7 @@ def db_add_func(data):
 def db_delete_func(data):
     try:
         db.session.delete(data)
-        db.session.commit(data)
+        db.session.commit()
         return True
     except SQLAlchemyError:
         return False
@@ -86,8 +88,8 @@ class Task(db.Model):
     title = db.Column(db.String(100), nullable=False)
     text = db.Column(db.Text, nullable=False)
     completion_date = db.Column(db.Date(), nullable=False)
-    done = db.Column(db.Boolean(), nullable=False)
-    # foreign key to table User (tablename users in postgres)
+    done = db.Column(db.Boolean(), default=False, nullable=False)
+    # foreign key to table User (table name users in postgres)
     user_id = db.Column(db.Integer, db.ForeignKey(
         'users.id', ondelete="CASCADE"), nullable=False)
 
