@@ -19,9 +19,10 @@ def get_user_tasks():
             'title': task.title,
             'text': task.text,
             'completion_date': str(task.completion_date),
-            'done': task.done
+            'done': task.done,
+            'user_id': task.author.id,
         })
-    return jsonify({'tasks': tasks_list})
+    return jsonify({'tasks': tasks_list}), 200
 
 
 @tasks.route('todo_api/v1.0/tasks/<int:task_id>', methods=['GET'])
@@ -36,7 +37,7 @@ def get_task_by_id(task_id: int):
     return jsonify({'title': task.title,
                     'text': task.text,
                     'completion_date': str(task.completion_date),
-                   'done': task.done})
+                   'done': task.done}), 200
 
 
 @tasks.route('todo_api/v1.0/tasks', methods=['POST'])
@@ -61,7 +62,7 @@ def create_new_task():
         return jsonify({'title': new_task.title,
                         'text': new_task.text,
                         'completion_date': str(new_task.completion_date),
-                        'done': new_task.done})
+                        'done': new_task.done}), 201
 
 
 @tasks.route('todo_api/v1.0/tasks/<int:task_id>', methods=['PUT'])
@@ -85,7 +86,7 @@ def update_task_state(task_id: int):
         return jsonify({'title': task.title,
                         'text': task.text,
                         'completion_date': str(task.completion_date),
-                        'done': task.done})
+                        'done': task.done}), 200
 
 
 @tasks.route('todo_api/v1.0/tasks/<int:task_id>', methods=['DELETE'])
@@ -100,5 +101,5 @@ def delete_task(task_id: int):
     if not db_delete_func(task):
         return error.SERVER_ERROR_500
     else:
-        return {'delete_flag': 0}
+        return {"delete_flag": 0}, 200
 

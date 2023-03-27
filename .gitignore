@@ -3,3 +3,4 @@
 *.log
 .idea
 *.pyc
+**.pytest_cache

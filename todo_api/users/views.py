@@ -24,7 +24,7 @@ def registration():
         return error.SERVER_ERROR_500
     else:
         token = new_user.get_token()
-        return {"access_token": token}
+        return {"access_token": token}, 201
 
 
 @users.route('/todo_api/v1.0/sign_in', methods=['POST'])
@@ -37,4 +37,4 @@ def authentication():
         return error.UNAUTHORIZED
 
     token = user.get_token()
-    return {"access_token": token}
+    return {"access_token": token}, 200
