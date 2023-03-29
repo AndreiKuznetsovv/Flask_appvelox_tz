@@ -1,10 +1,10 @@
 from flask import Flask
 
 from todo_api.config import DevelopmentConfig
-from todo_api.tasks.views import tasks
-from todo_api.users.views import users
+from todo_api.controller.tasks_controller import tasks
+from todo_api.controller.users_controller import users
 from todo_api.errors.handlers import errors
-from .models import (
+from .models.models import (
     User, Task,
     db, migrate,
     jwt

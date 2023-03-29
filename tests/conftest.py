@@ -1,8 +1,7 @@
 import pytest
 
 from todo_api import create_app, db
-
-API_URI = 'http://localhost:8080/todo_api/v1.0'
+from .utils import API_URI
 
 
 @pytest.fixture()
