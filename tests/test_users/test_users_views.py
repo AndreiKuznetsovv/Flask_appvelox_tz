@@ -1,5 +1,4 @@
-from tests.constants import API_URI
-from tests.utils import registration_request
+from tests.utils import registration_request, API_URI
 from todo_api.models import User
 
 

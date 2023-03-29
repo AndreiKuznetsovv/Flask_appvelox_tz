@@ -1,4 +1,4 @@
-from flask import request, Blueprint
+from flask import request, Blueprint, abort
 
 import todo_api.errors as error
 from todo_api.models import (
@@ -15,13 +15,13 @@ def registration():
     password = request.json.get('password').strip()
 
     if not username or not password:
-        return error.INVALID_INPUT_422
+        abort(422)
     elif User.query.filter_by(username=username).first():
-        return error.ALREADY_EXIST
+        abort(409)
 
     new_user = User(username=username, password=User.hash_password(password=password))
     if not db_add_func(new_user):
-        return error.SERVER_ERROR_500
+        abort(500)
     else:
         token = new_user.get_token()
         return {"access_token": token}, 201
@@ -34,7 +34,7 @@ def authentication():
 
     user = User.authenticate(username=username, password=password)
     if not user:
-        return error.UNAUTHORIZED
+        abort(401)
 
     token = user.get_token()
     return {"access_token": token}, 200

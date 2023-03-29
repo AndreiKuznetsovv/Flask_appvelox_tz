@@ -3,6 +3,7 @@ from flask import Flask
 from todo_api.config import DevelopmentConfig
 from todo_api.tasks.views import tasks
 from todo_api.users.views import users
+from todo_api.errors.handlers import errors
 from .models import (
     User, Task,
     db, migrate,
@@ -26,5 +27,6 @@ def create_app(database_uri=DevelopmentConfig.SQLALCHEMY_DATABASE_URI, testing=F
 
     app.register_blueprint(users, url_prefix="/")
     app.register_blueprint(tasks, url_prefix="/")
+    app.register_blueprint(errors, url_prefix="/")
 
     return app

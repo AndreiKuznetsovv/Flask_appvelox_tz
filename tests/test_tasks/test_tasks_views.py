@@ -1,5 +1,4 @@
-from tests.constants import API_URI
-from tests.utils import post_task_request
+from tests.utils import post_task_request, API_URI
 
 
 def test_get_user_tasks_JWT(client, user_header):

@@ -1,7 +1,6 @@
-from flask import request, Blueprint, jsonify
-from todo_api.models import User, Task, db_add_func, db_commit_func, db_delete_func
+from flask import request, Blueprint, jsonify, abort
+from todo_api.models import Task, db_add_func, db_commit_func, db_delete_func
 from flask_jwt_extended import jwt_required, get_jwt_identity
-import todo_api.errors as error
 from datetime import date
 
 tasks = Blueprint('tasks', __name__)
@@ -32,7 +31,7 @@ def get_task_by_id(task_id: int):
 
     task = Task.query.filter_by(id=task_id, user_id=user_id).first()
     if not task:
-        return error.DOES_NOT_EXIST
+        abort(404)
 
     return jsonify({'title': task.title,
                     'text': task.text,
@@ -50,14 +49,14 @@ def create_new_task():
     completion_date = request.json.get('completion_date').strip()
 
     if not title or not text or not completion_date:
-        return error.INVALID_INPUT_422
+        abort(422)
 
     completion_date_list = completion_date.split('-')
     year, month, day = map(int, completion_date_list)
 
     new_task = Task(title=title, text=text, completion_date=date(year, month, day), user_id=user_id)
     if not db_add_func(new_task):
-        return error.SERVER_ERROR_500
+        abort(500)
     else:
         return jsonify({'title': new_task.title,
                         'text': new_task.text,
@@ -72,16 +71,16 @@ def update_task_state(task_id: int):
 
     done = request.json.get('done').strip()
     if not done:
-        return error.INVALID_INPUT_422
+        abort(422)
 
     task = Task.query.filter_by(id=task_id, user_id=user_id).first()
     if not task:
-        return error.DOES_NOT_EXIST
+        abort(404)
 
     task.done = bool(done)
 
     if not db_commit_func():
-        return error.SERVER_ERROR_500
+        abort(500)
     else:
         return jsonify({'title': task.title,
                         'text': task.text,
@@ -96,10 +95,10 @@ def delete_task(task_id: int):
 
     task = Task.query.filter_by(id=task_id, user_id=user_id).first()
     if not task:
-        return error.DOES_NOT_EXIST
+        abort(404)
 
     if not db_delete_func(task):
-        return error.SERVER_ERROR_500
+        abort(500)
     else:
         return {"delete_flag": 0}, 200
 
