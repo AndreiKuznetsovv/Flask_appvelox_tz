@@ -16,8 +16,8 @@ Methods HTTP URI for Tasks
 * DELETE http://[hostname]/todo_api/v1.0/tasks/[task_id] - Delete task
 
 Methods HTTP URI for Users
-* POST http://[hostname]/todo/api/v1.0/sign_up - Registrate new user
-* POST http://[hostname]/todo/api/v1.0/sign_in - Authenticate user
+* POST http://[hostname]/todo_api/v1.0/sign_up - Registrate new user
+* POST http://[hostname]/todo_api/v1.0/sign_in - Authenticate user
 
 
 ## Functionality
@@ -31,4 +31,7 @@ Methods HTTP URI for Users
 ## Technologies
 * Flask
 * Postgres
-* ...
+* Flask-Migrate (Flask wrapper for Alembic)
+* Flask-sqlalchemy (FLask wrapper for sqlalchemy)
+* Flask-JWT-extended
+* PyTest - for testing purposes
