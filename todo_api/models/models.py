@@ -1,14 +1,8 @@
-from flask_jwt_extended import JWTManager
-from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 
 # creation of db object
 db = SQLAlchemy()
-# creation of migrate object
-migrate = Migrate()
-# creation of JWTManager object
-jwt = JWTManager()
 
 
 class User(db.Model):
